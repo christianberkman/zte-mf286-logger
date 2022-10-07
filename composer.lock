@@ -1,0 +1,61 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "cec98c56d52f2a959b4d3607f2333d9c",
+    "packages": [
+        {
+            "name": "christianberkman/zte-mf286-api",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/christianberkman/zte-mf286-api.git",
+                "reference": "a4c3138dcb02a0f1d2dc3e15f2e2a2cf238bcea3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/christianberkman/zte-mf286-api/zipball/a4c3138dcb02a0f1d2dc3e15f2e2a2cf238bcea3",
+                "reference": "a4c3138dcb02a0f1d2dc3e15f2e2a2cf238bcea3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ZTEMF286\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Berkman"
+                }
+            ],
+            "description": "Unofficial API for ZTE MF286 4G router",
+            "support": {
+                "issues": "https://github.com/christianberkman/zte-mf286-api/issues",
+                "source": "https://github.com/christianberkman/zte-mf286-api/tree/main"
+            },
+            "time": "2022-10-07T20:23:29+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "christianberkman/zte-mf286-api": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

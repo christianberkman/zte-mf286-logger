@@ -1,0 +1,15 @@
+{
+    "name": "christianberkman/zte-mf286-logger",
+    "description": "Data usage logger for ZTE MF286 4G router",
+    "type": "project",
+    "require": {
+        "christianberkman/zte-mf286-api": "dev-main"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Berkman"
+        }
+    ],
+    "minimum-stability": "dev"
+}
