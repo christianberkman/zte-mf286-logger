@@ -8,6 +8,7 @@
 
  return [
     'ip' =>         '', 
-    'password' =>   '', 
+    'password' =>   '',
+    'cookiePath' => __DIR__, 
  ];
  
