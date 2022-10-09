@@ -10,13 +10,13 @@ require_once( __DIR__ .'../../vendor/autoload.php');
 
 // Connect API
 use ZTEMF286\Api;
-$credentials = require_once(__DIR__ .'/../credentials.php');
-$zteApi = new Api($credentials['ip']);
-$login = $zteApi->login($credentials['password']);
-unset($credentials);
+$settings = require_once(__DIR__ .'/../settings.php');
+$zteApi = new Api($settings['ip'], $settings['cookiePath']);
+$login = $zteApi->login($settings['password']);
+unset($settings);
 
 // Login unsuccessful
-if(!$login) exit('Login failed, check credentials');
+if(!$login) exit('Login failed, check settings');
  
 // Get usage, exit on failure
 $usage = $zteApi->dataUsage();
@@ -33,7 +33,7 @@ $columns = [
 $newLine = implode(',', $columns) . PHP_EOL;
 
 // Append to CSV file
-$csvFile = __DIR__ .'/../logs/daily.csv';
+$csvFile = $settings['logPath'] .'/daily.csv';
 $fh = fopen($csvFile, 'a');
 fwrite($fh, $newLine);
 fclose($fh);

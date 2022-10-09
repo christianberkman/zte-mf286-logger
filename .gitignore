@@ -1,4 +1,4 @@
 /vendor/
 /logs/*
-credentials.php
+settings.php
 zte-cookie
