@@ -3,7 +3,7 @@
  * ZTE MF286 Data Usage Logger
  * 2022 by Christian Berkman
  * 
- * Daily Cronjob
+ * Hourly cronjob
 */
 
 require_once( __DIR__ .'/../vendor/autoload.php');
@@ -19,20 +19,20 @@ $login = $zteApi->login($settings['password']);
 if(!$login) exit('Login failed, check settings');
  
 // Get usage, exit on failure
-$dateTime = date('Y-m-d');
+$dateTime = date('Y-m-d H:i');
 $usage = $zteApi->dataUsage();
 if($usage == false) exit('Could not get data usage' . PHP_EOL);
 
 // Open CSV file
-$csv = new Logger\Csv($settings['logPath'], 'daily.csv');
+$csv = new Logger\Csv($settings['logPath'], 'hourly.csv');
 $lastLine = $csv->lastLine();
 
 // Calculate delta (in MiB)
 if(!is_null($lastLine)){
     $lastDate = strtotime($lastLine[0]);
     $lastTotal = $lastLine[3];
-    $dateDelta = floor( (strtotime($dateTime) - $lastDate) / (24*3600) );
-    if($dateDelta != 9){
+    $dateDelta = floor( (strtotime($dateTime) - $lastDate) / (3600) );
+    if($dateDelta != 0){
         $totalDelta = ($usage['total']['GiB'] - $lastTotal) * 1024;
         $delta = round( ($totalDelta / $dateDelta), 0);
     } else $delta = 0;
@@ -44,7 +44,7 @@ $columns = [
     $usage['rx']['GiB'],
     $usage['tx']['GiB'],
     $usage['total']['GiB'],
-    $delta
+    ($delta ?? 0)
 ];
 
 // Append to CSV file

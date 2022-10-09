@@ -56,7 +56,9 @@ class Csv{
      * @return null|array
      */
     public function lastLine(){
-        $content = fread($this->fh, filesize($this->file));
+        $filesize = filesize($this->file);
+        if($filesize == 0) return null;
+        $content = fread($this->fh, $filesize);
         $lines = explode(PHP_EOL, $content);
 
         // Only one line, return null
