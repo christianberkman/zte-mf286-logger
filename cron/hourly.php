@@ -19,12 +19,13 @@ $login = $zteApi->login($settings['password']);
 if(!$login) exit('Login failed, check settings');
  
 // Get usage, exit on failure
+$date = date('Y-m-d');
 $dateTime = date('Y-m-d H:i');
 $usage = $zteApi->dataUsage();
 if($usage == false) exit('Could not get data usage' . PHP_EOL);
 
 // Open CSV file
-$csv = new Logger\Csv($settings['logPath'], 'hourly.csv');
+$csv = new Logger\Csv($settings['logPath'], "hourly-{$date}.csv");
 $lastLine = $csv->lastLine();
 
 // Calculate delta (in MiB)
@@ -36,7 +37,7 @@ if(!is_null($lastLine)){
         $totalDelta = ($usage['total']['GiB'] - $lastTotal) * 1024;
         $delta = round( ($totalDelta / $dateDelta), 0);
     } else $delta = 0;
-}
+} else $delta = 0;
 
 // Compole New CSV Line
 $columns = [
