@@ -38,6 +38,11 @@ async function draw(){
         type: 'line',
         data: data,
         options: {
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
             scales: {
                 x: {
                     type: 'time',

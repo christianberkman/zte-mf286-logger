@@ -10,7 +10,7 @@ async function draw(){
 
     $('#date').html(date);
 
-    const dataTotal = await $.getJSON('makeJson.php?file=hourly&column=total&date=' + date);
+    const dataTotal = await $.getJSON('makeJson.php?file=hourly&column=delta&date=' + date);
     
     const data = {
         datasets: [
@@ -31,7 +31,7 @@ async function draw(){
         options: {
             plugins: {
                 legend: {
-                    display: false
+                    display: false,
                 }
             },
             scales: {
@@ -45,7 +45,7 @@ async function draw(){
                 y: {
                     title: {
                         display: true,
-                        text: 'Total (GiB)'
+                        text: 'Delta (MiB)'
                     }
                 }
             }
