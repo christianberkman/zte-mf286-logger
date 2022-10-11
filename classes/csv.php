@@ -71,6 +71,26 @@ class Csv{
         return explode(',', $lastLine);
     }
 
+    public function records(){
+        // Read file contents
+        $filesize = filesize($this->file);
+        if($filesize == 0) return 0;
+        $content = fread($this->fh, $filesize);
+        $lines = explode(PHP_EOL, $content);
+
+        // Remove first line
+        unset($lines[0]);
+        
+        // Get columns
+        $columns = [];
+        foreach($lines as $line){
+            if(empty($line)) continue;
+            $columns[] = explode(',', $line);
+        }
+
+        return $columns;
+    }
+
     /**
      * Close the file handler
      *
