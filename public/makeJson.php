@@ -25,15 +25,16 @@ switch( ($_GET['file'] ??  null) ){
     default:
         exit();
     break;
-} echo $csvFile;
+}
 
 // Column
 switch(($_GET['column'] ?? null)){
     case 'rx': $col = 1; break;
     case 'tx': $col = 2; break;
+    case 'delta': $col = 4; break;
+
     default:
     case 'total': $col = 3; break;
-    case 'delta': $col = 4; break;
 }
 
 // Read CSV records
@@ -50,4 +51,7 @@ foreach($records as $record){
     ];
 }
 
+// Output
+header('Content-Type: application/json; charset=utf-8');
 echo json_encode($json, JSON_PRETTY_PRINT);
+exit();
