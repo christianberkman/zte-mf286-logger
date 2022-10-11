@@ -7,8 +7,9 @@
  */
 
  return [
-    'ip' =>         '', 
-    'password' =>   '',
-    'cookiePath' => __DIR__, 
+    'ip' =>         '',             // router ip 
+    'password' =>   '',             // router password
+    'cookiePath' => __DIR__,        // path to store cookie
+    'logPath' => __DIR__ .'/logs'   // path to store logs
  ];
  
