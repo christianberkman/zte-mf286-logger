@@ -7,7 +7,7 @@
  */
 
 require_once( __DIR__ .'/../vendor/autoload.php');
-require_once( __DIR__ .'/../classes/autoload.php');
+require_once( __DIR__ .'/../csv.php');
 $settings = require_once( __DIR__ .'/../settings.php' );
 
 // CSV file
@@ -23,7 +23,7 @@ switch( ($_GET['file'] ??  null) ){
     break;
 
     default:
-        exit();
+        $csvFile = 'daily.csv';
     break;
 }
 
@@ -38,9 +38,16 @@ switch(($_GET['column'] ?? null)){
 }
 
 // Read CSV records
-$csv = new Logger\Csv($settings['logPath'], $csvFile);
+$csv = new Logger\Csv( fopen($settings['logPath'] .'/'. $csvFile, 'r') );
 $records = $csv->records();
 $csv->close();
+
+// Limit
+$limit = intval($_GET['limit'] ?? null);
+if($limit != 0 && $limit < count($records)){
+    $records = array_slice($records, -$limit);
+}
+
 
 // Create JSON array
 $json = [];

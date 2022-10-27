@@ -1,36 +1,64 @@
-async function draw(){
-    const dataRx = await $.getJSON('makeJson.php?file=daily&column=rx');
-    const dataTx = await $.getJSON('makeJson.php?file=daily&column=tx');
-    const dataTotal = await $.getJSON('makeJson.php?file=daily&column=total');
-    
+function drawDaily(jsonData){
     const data = {
         datasets: [
-            /*{
-                label: 'Transferred',
-                data: dataTx,
-                fill: true,
-                backgroundColor: 'rgb(232, 248, 245)',
-                borderColor: 'rgb(163, 228, 215)',
-                tension: 0.1
-            },
-
             {
-                label: 'Received',
-                data: dataRx,
-                fill: true,
-                backgroundColor: 'rgb(254, 249, 231)',
-                borderColor: 'rgb(249, 231, 159)',
-                tension: 0.1
-            },*/
-
-            {
-                label: 'Total',
-                data: dataTotal,
+                label: 'Daily (GiB)',
+                data: jsonData,
                 fill: true,
                 backgroundColor: 'rgb(214, 234, 248)',
                 borderColor: 'rgb(133, 193, 233)',
-                tension: 0.1
-            },
+                tension: 0.1,
+		        pointRadius: 0
+            }
+        ]
+    }   
+    
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        displayFormats: {
+                            //hour: 'HH:mm'
+                        },
+                        unit: 'day',
+                        //stepSize: 4
+                    },
+                },
+                y: { title: { display: true, text: 'GiB' } }
+            }
+        }
+      };
+
+      const myChart = new Chart(
+        document.getElementById('daily'),
+        config
+      );
+}
+
+
+
+async function draw(){
+    
+    $('#date').html(date);
+
+    const dataTotal = await $.getJSON('makeJson.php?file=hourly&column=delta&date=' + date);
+    
+    const data = {
+        datasets: [
+            {
+                label: 'Delta (MiB)',
+                //data: dataTotal,
+                fill: true,
+                backgroundColor: 'rgb(214, 234, 248)',
+                borderColor: 'rgb(133, 193, 233)',
+                tension: 0.1,
+		        pointRadius: 0
+            }
         ]
       };
 
@@ -38,28 +66,27 @@ async function draw(){
         type: 'line',
         data: data,
         options: {
-            plugins: {
-                legend: {
-                    display: false,
-                }
-            },
+            plugins: { legend: { display: false } },
             scales: {
                 x: {
                     type: 'time',
                     time: {
-                        unit: 'day',
-                        stepSize: 1
-                    }
+                        displayFormats: {
+                            hour: 'HH:mm'
+                        },
+                        unit: 'hour',
+                        stepSize: 4
+                    },
+		            min: date + ' 00:00',
+		            max: date + ' 23:59'
                 }
             }
         }
       };
-    
+
       const myChart = new Chart(
-        document.getElementById('myChart'),
+        document.getElementById('hourlyDelta'),
         config
       );
         
 }
-
-draw();

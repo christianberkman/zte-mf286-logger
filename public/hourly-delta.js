@@ -1,63 +1,55 @@
-async function draw(){
-    let date;
-    let searchParams = new URLSearchParams(window.location.search)
-    if(searchParams.has('date')){
-        date = searchParams.get('date')
-    } else{
-        let yourDate = new Date()
-        date = yourDate.toISOString().split('T')[0]
-    }
+let hourlyChart
 
-    $('#date').html(date);
-
-    const dataTotal = await $.getJSON('makeJson.php?file=hourly&column=delta&date=' + date);
+function drawHourlyDelta(date, jsonData){
     
     const data = {
         datasets: [
             {
-                label: 'Total',
-                data: dataTotal,
+                label: 'Delta (MiB)',
+                data: jsonData,
                 fill: true,
                 backgroundColor: 'rgb(214, 234, 248)',
                 borderColor: 'rgb(133, 193, 233)',
-                tension: 0.1
-            },
+                tension: 0.1,
+		        pointRadius: 0
+            }
         ]
-      };
-
-      const config = {
+    }   
+    
+    const config = {
         type: 'line',
         data: data,
         options: {
-            plugins: {
-                legend: {
-                    display: false,
-                }
-            },
+            plugins: { legend: { display: false } },
             scales: {
                 x: {
                     type: 'time',
                     time: {
+                        displayFormats: {
+                            hour: 'HH:mm'
+                        },
                         unit: 'hour',
-                        stepSize: 1
-                    }
+                        stepSize: 4
+                    },
+		            min: date + ' 00:00',
+		            max: date + ' 23:59'
                 },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Delta (MiB)'
-                    }
-                }
+                y: { title: { display: true, text: 'MiB/hr' } }
             }
         }
       };
-    
-      const myChart = new Chart(
-        document.getElementById('myChart'),
+
+      hourlyChart = new Chart(
+        document.getElementById('hourlyDelta'),
         config
       );
-        
 }
-$( function() {
-    draw();
-})
+
+function updateHourlyDelta(date, jsonData){
+    hourlyChart.config.data.datasets[0].data = null
+    hourlyChart.update()
+    hourlyChart.config.data.datasets[0].data = jsonData
+    hourlyChart.config.options.scales.x.min = date + ' 00:00'
+    hourlyChart.config.options.scales.x.max = date + ' 23:59'
+    hourlyChart.update()
+}

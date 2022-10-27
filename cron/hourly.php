@@ -7,7 +7,7 @@
 */
 
 require_once( __DIR__ .'/../vendor/autoload.php');
-require_once __DIR__ .'/../classes/autoload.php';
+require_once __DIR__ .'/../csv.php';
 
 // Connect API
 use ZTEMF286\Api;
@@ -25,14 +25,14 @@ $usage = $zteApi->dataUsage();
 if($usage == false) exit('Could not get data usage' . PHP_EOL);
 
 // Open CSV file
-$csv = new Logger\Csv($settings['logPath'], "hourly-{$date}.csv");
+$csv = new Logger\Csv( fopen($settings['logPath'] ."/hourly-{$date}.csv", 'a+') );
 $lastLine = $csv->lastLine();
 
 // Calculate delta (in MiB)
 if(!is_null($lastLine)){
     $lastDate = strtotime($lastLine[0]);
     $lastTotal = $lastLine[3];
-    $dateDelta = floor( (strtotime($dateTime) - $lastDate) / (3600) );
+    $dateDelta = (strtotime($dateTime) - $lastDate) / (3600);
     if($dateDelta != 0){
         $totalDelta = ($usage['total']['GiB'] - $lastTotal) * 1024;
         $delta = round( ($totalDelta / $dateDelta), 0);

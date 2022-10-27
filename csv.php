@@ -15,7 +15,7 @@ class Csv{
      */
     private $file,      // absolute path to csv file
             $filesize,
-            $fh,        // file handler
+            $handler,        // file handler
             $columns = [
                 'date', 'rx (GiB)', 'tx (GiB)', 'total (GiB)', 'delta (MiB)'
             ];
@@ -23,18 +23,11 @@ class Csv{
     /**
      * Class constructor
      *
-     * @param string $logPath
-     * @param string $csvFile
+     * @param $handler File Handler
      */
-    function __construct(string $logPath, string $csvFile){
-        touch($logPath . '/'. $csvFile);
-        $this->file = realpath($logPath .'/' . $csvFile);
-        $this->fh = fopen($this->file, 'a+');
-
-        // Write header columns if file is empty
-        if(filesize($this->file) == 0){
-            $this->appendLine($this->columns);
-        }
+    function __construct($handler){
+        if(gettype($handler) != 'resource') throw new \Exception('Constructor expects fopen() resource');
+        $this->handler = $handler;
     }
 
     /**
@@ -44,8 +37,16 @@ class Csv{
      * @return bool
      */
     public function appendLine(array $columns){
-        $newLine = implode(',', $columns) . PHP_EOL;
-        $write = fwrite($this->fh, $newLine);
+        $newLine = '';
+        
+        // Insert headers if blank file
+        $filesize = fstat($this->handler)['size'];
+        if($filesize = 0){
+            $newline .= implode(',', $this->columns) . PHP_EOL;
+        }
+        
+        $newLine .= implode(',', $columns) . PHP_EOL;
+        $write = fwrite($this->handler, $newLine);
         if($write > 0) return true;
         else return false;
     }
@@ -56,9 +57,9 @@ class Csv{
      * @return null|array
      */
     public function lastLine(){
-        $filesize = filesize($this->file);
+        $filesize = fstat($this->handler)['size'];
         if($filesize == 0) return null;
-        $content = fread($this->fh, $filesize);
+        $content = fread($this->handler, $filesize);
         $lines = explode(PHP_EOL, $content);
 
         // Only one line, return null
@@ -73,9 +74,9 @@ class Csv{
 
     public function records(){
         // Read file contents
-        $filesize = filesize($this->file);
+        $filesize = fstat($this->handler)['size'];
         if($filesize == 0) return 0;
-        $content = fread($this->fh, $filesize);
+        $content = fread($this->handler, $filesize);
         $lines = explode(PHP_EOL, $content);
 
         // Remove first line
@@ -97,7 +98,7 @@ class Csv{
      * @return void
      */
     public function close(){
-        fclose($this->fh);
+        fclose($this->handler);
     }
 
     /**

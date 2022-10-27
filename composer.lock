@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/christianberkman/zte-mf286-api.git",
-                "reference": "ab9ac5ccf9a329cefe81658095c3042ab8392675"
+                "reference": "302dbb59d31612d64e280af661e111b5e54804df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/christianberkman/zte-mf286-api/zipball/ab9ac5ccf9a329cefe81658095c3042ab8392675",
-                "reference": "ab9ac5ccf9a329cefe81658095c3042ab8392675",
+                "url": "https://api.github.com/repos/christianberkman/zte-mf286-api/zipball/302dbb59d31612d64e280af661e111b5e54804df",
+                "reference": "302dbb59d31612d64e280af661e111b5e54804df",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 "issues": "https://github.com/christianberkman/zte-mf286-api/issues",
                 "source": "https://github.com/christianberkman/zte-mf286-api/tree/main"
             },
-            "time": "2022-10-08T07:20:40+00:00"
+            "time": "2022-10-16T21:11:36+00:00"
         }
     ],
     "packages-dev": [],

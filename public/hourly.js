@@ -29,23 +29,12 @@ async function draw(){
         type: 'line',
         data: data,
         options: {
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
             scales: {
                 x: {
                     type: 'time',
                     time: {
                         unit: 'hour',
                         stepSize: 1
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Total (GiB)'
                     }
                 }
             }
