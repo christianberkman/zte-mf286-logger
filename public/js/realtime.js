@@ -20,7 +20,8 @@ function drawRealtime(){
                 backgroundColor: 'rgb(214, 248, 234)',
                 borderColor: 'rgb(133, 233, 193)',
                 tension: 0.1,
-		        pointRadius: 0
+		        pointRadius: 0,
+                pointHitRadius: 16
             }
         ]
     }   

@@ -8,7 +8,8 @@ function drawDaily(jsonData){
                 backgroundColor: 'rgb(214, 234, 248)',
                 borderColor: 'rgb(133, 193, 233)',
                 tension: 0.1,
-		        pointRadius: 0
+		        pointRadius: 0,
+                pointHitRadius: 16
             }
         ]
     }   
