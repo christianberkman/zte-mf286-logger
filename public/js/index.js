@@ -16,10 +16,12 @@ $( function() {
         drawDaily(jsonData)
     })
 
+    /*
     // Week
     $.getJSON('makeJson.php?file=daily&limit=7').then( (jsonData) => {
         drawWeek(jsonData);
     })
+    */
 
     // Hourly Dates
     let dates
